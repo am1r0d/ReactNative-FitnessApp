@@ -2,14 +2,22 @@ import React from "react";
 import { View, Text, Pressable, Image } from "react-native";
 import fitness from "../data/fitness";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const FitnessCards = () => {
     const FitnessData = fitness;
-
+    const navigation = useNavigation();
     return (
         <View>
             {FitnessData.map((item, key) => (
                 <Pressable
+                    onPress={() =>
+                        navigation.navigate("Workout", {
+                            image: item.image,
+                            excersises: item.excersises,
+                            id: item.id,
+                        })
+                    }
                     style={{
                         alignItems: "center",
                         justifyContent: "cneter",
