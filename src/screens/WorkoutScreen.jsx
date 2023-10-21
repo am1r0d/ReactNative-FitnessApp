@@ -1,19 +1,14 @@
-import React from "react";
-import {
-    Image,
-    SafeAreaView,
-    Pressable,
-    View,
-    Text,
-    ScrollView,
-} from "react-native";
+import React, { useContext } from "react";
+import { Image, Pressable, View, Text, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { FitnessItems } from "../context/Context";
 
 const WorkoutScreen = () => {
     const route = useRoute();
-    // console.log(route.params);
     const navigation = useNavigation();
+    const { completed, setCompleted } = useContext(FitnessItems);
 
     return (
         <>
@@ -46,7 +41,13 @@ const WorkoutScreen = () => {
                             source={{ uri: item.image }}
                         />
                         <View style={{ marginLeft: 10 }}>
-                            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    fontWeight: "bold",
+                                    width: 170,
+                                }}
+                            >
                                 {item.name}
                             </Text>
                             <Text
@@ -59,16 +60,26 @@ const WorkoutScreen = () => {
                                 x{item.sets}
                             </Text>
                         </View>
+
+                        {completed.includes(item.name) ? (
+                            <AntDesign
+                                style={{ marginLeft: 40 }}
+                                name="checkcircle"
+                                size={24}
+                                color="#1CAB85"
+                            />
+                        ) : null}
                     </Pressable>
                 ))}
             </ScrollView>
 
             <Pressable
-                onPress={() =>
+                onPress={() => {
                     navigation.navigate("Fit", {
                         excersises: route.params.excersises,
-                    })
-                }
+                    });
+                    setCompleted([]);
+                }}
                 style={{
                     backgroundColor: "#0066CC",
                     padding: 10,

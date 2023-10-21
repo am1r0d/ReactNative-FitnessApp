@@ -1,15 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Image, SafeAreaView, Pressable, View, Text } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { FitnessItems } from "../context/Context";
 
 const FitScreen = () => {
     const route = useRoute();
-    console.log(route.params);
+    // console.log(route.params);
     const navigation = useNavigation();
     const [index, setIndex] = useState(0);
     const excersise = route.params.excersises;
     const current = excersise[index];
-    console.log(current, "first excersise");
+    // console.log(current, "first excersise");
+
+    const {
+        completed,
+        setCompleted,
+        workout,
+        setWorkout,
+        calories,
+        setCalories,
+        minutes,
+        setMinutes,
+    } = useContext(FitnessItems);
+
+    console.log(completed, "completed excersise");
 
     return (
         <SafeAreaView>
@@ -69,6 +83,10 @@ const FitScreen = () => {
                 <Pressable
                     onPress={() => {
                         navigation.navigate("Rest");
+                        setCompleted([...completed, current.name]);
+                        setWorkout(workout + 1);
+                        setMinutes(minutes + 2.5);
+                        setCalories(calories + 6.3);
                         setTimeout(() => {
                             setIndex(index + 1);
                         }, 2000);
